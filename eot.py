@@ -161,7 +161,7 @@ def eventsOverTime(filter, timeFrame, breakBy):
     
     
     # Define our connection string
-    conn_string = "host='52.43.75.12' port='5432' dbname='ndexstats' user='ndexstats' password='dashboard101'"
+    conn_string = "host='<ip address>' port='<port No>' dbname='<database name>' user='<username>' password='<password>'"
 
     # get a connection, if a connect cannot be made an exception will be raised here
     try:
