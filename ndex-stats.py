@@ -9,7 +9,7 @@ from os.path import isfile, expanduser
 import json
 import argparse
 # import datetime
-import matplotlib.pyplot as plt
+import matplotlib
 
 parser = argparse.ArgumentParser(description='run stats queries vs. the NDEx log database')
 parser.add_argument('--config',
@@ -103,10 +103,10 @@ try:
         #stacked=True
     )
 
-    plt.xlabel('date')
-    plt.ylabel('count')
+    matplotlib.pyplot.xlabel('date')
+    matplotlib.pyplot.ylabel('count')
     fig_path = arg.stats_dir + "access_and_searches.jpg"
-    plt.savefig(fig_path)
+    matplotlib.pyplot.savefig(fig_path)
 
 except:
     e = sys.exc_info()[0]
