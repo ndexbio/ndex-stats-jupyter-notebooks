@@ -67,51 +67,44 @@ get_anon_search_by_day = "select date_trunc('day', start_time) as d, count(*) fr
 #--------------------------------------
 
 
-try:
-    #conn = psycopg2.connect(conn_string)
-    conn = psycopg2.connect(
-        host=host,
-        port=port,
-        dbname=database,
-        user=username,
-        password=password)
-    #print("-----")
-    #print(conn)
-    network_by_day_df = sqlio.read_sql_query(get_network_by_day, conn)
-    network_by_day_df.rename(index=str, inplace=True, columns={"count": "networks accessed", "d": "date"})
+#conn = psycopg2.connect(conn_string)
+conn = psycopg2.connect(
+    host=host,
+    port=port,
+    dbname=database,
+    user=username,
+    password=password)
+#print("-----")
+#print(conn)
+network_by_day_df = sqlio.read_sql_query(get_network_by_day, conn)
+network_by_day_df.rename(index=str, inplace=True, columns={"count": "networks accessed", "d": "date"})
 
-    anon_by_day_df = sqlio.read_sql_query(get_anon_search_by_day, conn)
-    anon_by_day_df.rename(index=str, inplace=True, columns={"count": "anon searches", "d": "date"})
-    #print("-----")
-    #
-    conn.close()
+anon_by_day_df = sqlio.read_sql_query(get_anon_search_by_day, conn)
+anon_by_day_df.rename(index=str, inplace=True, columns={"count": "anon searches", "d": "date"})
+#print("-----")
+#
+conn.close()
 
-    merged = pd.merge(network_by_day_df, anon_by_day_df, on='date')
-    merged['date'] = merged['date'].apply(lambda x: x.strftime('%m/%d'))
+merged = pd.merge(network_by_day_df, anon_by_day_df, on='date')
+merged['date'] = merged['date'].apply(lambda x: x.strftime('%m/%d'))
 
-    merged.plot(
-        x='date',
-        #y='count',
-        kind='bar',
-        grid=True,
-        #colormap='autumn',
-        alpha=0.5,
-        figsize=(16,8),
-        title='Network Access and Anonymous Search (not including browse)',
-        width=.8,
-        linewidth=1.2
-        #stacked=True
-    )
+merged.plot(
+    x='date',
+    #y='count',
+    kind='bar',
+    grid=True,
+    #colormap='autumn',
+    alpha=0.5,
+    figsize=(16,8),
+    title='Network Access and Anonymous Search (not including browse)',
+    width=.8,
+    linewidth=1.2
+    #stacked=True
+)
 
-    matplotlib.pyplot.xlabel('date')
-    matplotlib.pyplot.ylabel('count')
-    fig_path = arg.stats_dir + "access_and_searches.jpg"
-    matplotlib.pyplot.savefig(fig_path)
-
-except:
-    e = sys.exc_info()[0]
-    # print("Error: %s %tb" % e)
-    print("Error: %s" % e)
-    sys.exit()
+matplotlib.pyplot.xlabel('date')
+matplotlib.pyplot.ylabel('count')
+fig_path = arg.stats_dir + "access_and_searches.jpg"
+matplotlib.pyplot.savefig(fig_path)
 
 
