@@ -17,11 +17,6 @@ parser.add_argument('--config',
                     action='store',
                     default=expanduser("~/ndexstats_config.json"))
 
-parser.add_argument('--dir',
-                    dest='stats_dir',
-                    action='store',
-                    default=expanduser("~/stats/"))
-
 arg = parser.parse_args()
 
 config = None
@@ -37,6 +32,10 @@ password = config.get("password")
 port = config.get("port")
 host = config.get("host")
 database = config.get("database")
+stats_dir = config.get("stats_dir")
+
+if not stats_dir:
+    stats_dir = default=expanduser("~/stats/")
 
 if not (username and password and port and host and database):
     raise Exception("Parameters missing in config file " + arg.config_file)
@@ -104,7 +103,7 @@ merged.plot(
 
 matplotlib.pyplot.xlabel('date')
 matplotlib.pyplot.ylabel('count')
-fig_path = arg.stats_dir + "access_and_searches.png"
+fig_path = stats_dir + "access_and_searches.png"
 matplotlib.pyplot.savefig(fig_path)
 
 
