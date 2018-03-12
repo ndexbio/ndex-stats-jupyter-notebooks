@@ -104,7 +104,7 @@ merged.plot(
 
 matplotlib.pyplot.xlabel('date')
 matplotlib.pyplot.ylabel('count')
-fig_path = arg.stats_dir + "access_and_searches.jpg"
+fig_path = arg.stats_dir + "access_and_searches.png"
 matplotlib.pyplot.savefig(fig_path)
 
 
